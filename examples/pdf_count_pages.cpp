@@ -1,4 +1,4 @@
-#include "../pdf/Document.cpp"
+#include "../src/pdf/Document.cpp"
 #include <iostream>
 using namespace std;
 using namespace MuPDF;
