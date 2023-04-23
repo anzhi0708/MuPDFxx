@@ -19,7 +19,7 @@ public:
     } else {
       fz_drop_context(this->ctx);
       std::cerr << "File not found." << std::endl;
-	  std::cerr << file_path << " not found" << std::endl;
+      std::cerr << file_path << " not found" << std::endl;
       throw std::runtime_error("PDF file not found.");
     }
   }
