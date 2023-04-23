@@ -29,6 +29,7 @@ public:
     fz_drop_context(this->ctx);
   }
   size_t countPages() { return this->n_pages; }
+  const char *getFileName() { return this->file_name; }
 
 private:
   const char *file_name;
