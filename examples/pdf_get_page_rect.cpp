@@ -26,5 +26,12 @@ int main(int argc, char **argv) {
   printf("X0: %f, Y0: %f; X1: %f, Y1: %f\n", third_page.x0, third_page.y0,
          third_page.x1, third_page.y1);
 
+  // Getting ALL pages
+  for (int i = 0; i < doc.size(); ++i) {
+    PDFPage the_page = doc.getAllPages()[i];
+    printf("Page %d/%lu - X0: %f, Y0: %f; X1: %f, Y1: %f\n", i + 1, doc.size(),
+           the_page.x0, the_page.y0, the_page.x1, the_page.y1);
+  }
+
   return 0;
 }

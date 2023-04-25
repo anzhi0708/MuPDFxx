@@ -85,6 +85,7 @@ public:
       this->file_full_path = file_path;
       this->doc = pdf_open_document(ctx, file_path);
       this->n_pages = pdf_count_pages(ctx, doc);
+      this->all_pages = nullptr;
     } else {
       fz_drop_context(this->ctx);
       std::cerr << "File not found." << std::endl;
@@ -100,6 +101,12 @@ public:
   /* Getting this document's total
    * page number. */
   size_t countPages() { return this->n_pages; }
+
+  /* An alias to `countPages()` */
+  size_t size() { return this->n_pages; }
+
+  /* An alias to `countPages()` */
+  size_t length() { return this->n_pages; }
 
   /* Getting this document's file path. */
   const char *getFileFullPath() { return this->file_full_path; }
@@ -121,14 +128,21 @@ public:
   /* Alias to `loadPageAtIndex`. */
   PDFPage page(int num) { return this->loadPageAtIndex(num); }
 
+  /* Get an array of `pdf_page *` pointers */
   PDFPage *getAllPages() {
-    assert(this->ctx != nullptr && this->doc != nullptr);
-    this->all_pages = (PDFPage *)malloc(sizeof(PDFPage) * this->n_pages);
-    for (int i = 0; i < this->n_pages; ++i) {
-      this->all_pages[i] = this->loadPageAtIndex(i);
+    if (this->all_pages) {
+      return this->all_pages;
+    } else {
+      this->loadAllPages();
+      return this->all_pages;
     }
-    return this->all_pages;
   }
+
+  /* Alias to `getAllPages()` */
+  PDFPage *pages() { return this->getAllPages(); }
+
+  /* Alias to `getAllPages()` */
+  PDFPage *getPages() { return this->getAllPages(); }
 
 private:
   const char *file_full_path;
@@ -138,6 +152,15 @@ private:
   PDFPage *all_pages;
   void dropPage(PDFPage *page) {
     fz_drop_page(this->ctx, (fz_page *)(page->getPointer()));
+  }
+
+  /* Allocating memory for children `PDFPage`s and init them. */
+  void loadAllPages() {
+    assert(this->ctx != nullptr && this->doc != nullptr);
+    this->all_pages = (PDFPage *)malloc(sizeof(PDFPage) * this->n_pages);
+    for (int i = 0; i < this->n_pages; ++i) {
+      this->all_pages[i] = this->loadPageAtIndex(i);
+    }
   }
 };
 
