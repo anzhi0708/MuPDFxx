@@ -15,6 +15,11 @@ namespace MuPDF {
 
 class PDFPage {
 public:
+  float x0;
+  float y0;
+  float x1;
+  float y1;
+
   /* Simply creat a `PDFPage` object
    * from a raw `pdf_page` pointer.
    * If no `index` provided, then
@@ -68,10 +73,6 @@ private:
   int index;
   pdf_page *pdf_page_ptr;
   fz_rect rect;
-  float x0;
-  float y0;
-  float x1;
-  float y1;
 };
 
 class PDFDocument {
