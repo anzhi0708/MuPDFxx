@@ -8,5 +8,9 @@ int main(int argc, char **argv) {
   PDFDocument doc{argv[1]};
   cout << "File: " << doc.getFileFullPath() << endl;
   cout << "Pages: " << doc.countPages() << endl;
+  // or
+  cout << "Pages: " << doc.size() << endl;
+  // or
+  cout << "Pages: " << doc.length() << endl;
   return 0;
 }
