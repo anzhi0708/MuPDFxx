@@ -15,16 +15,33 @@ namespace MuPDF {
 
 class PDFPage {
 public:
+  /* Simply creat a `PDFPage` object
+   * from a raw `pdf_page` pointer.
+   * If no `index` provided, then
+   * set the index to -1. */
   PDFPage(pdf_page *page_ptr) {
     this->pdf_page_ptr = page_ptr;
     this->index = -1;
   }
+
+  /* Creating a `PDFPage` object from
+   * a raw `pdf_page` pointer with additional
+   * **page index** information.
+   * The `index` attr can be later used to
+   * locate the `PDFPage` object
+   * inside of a `PDFDocument`. */
   PDFPage(int index, pdf_page *page_ptr) {
     assert(index >= 0);
     this->index = index;
     this->pdf_page_ptr = page_ptr;
   }
+
+  /* Returning the 'raw type' aka `pdf_page *`. */
   pdf_page *getPointer() { return this->pdf_page_ptr; }
+
+  /* Initializing this page object's boundary
+   * coordinates.
+   * X0, Y0, X1, Y1 are floats. */
   void setFitzRect(fz_rect rect) {
     this->rect = rect;
     this->x0 = rect.x0;
@@ -32,10 +49,16 @@ public:
     this->y0 = rect.y0;
     this->y1 = rect.y1;
   }
+
+  /* Getting coordinates as a `raw` rect type */
   fz_rect getFitzRect() { return this->rect; }
+
+  /* Getting coordinates as a std::tuple type */
   std::tuple<float, float, float, float> getRectAsTuple() {
     return std::make_tuple(this->x0, this->y0, this->x1, this->y1);
   }
+
+  /* Getting coordinates. */
   float getX0() { return this->x0; }
   float getY0() { return this->y0; }
   float getX1() { return this->x1; }
@@ -53,6 +76,8 @@ private:
 
 class PDFDocument {
 public:
+  /* Creating a `PDFDocument` object
+   * from file. */
   PDFDocument(const char *file_path) {
     this->ctx = fz_new_context(nullptr, nullptr, FZ_STORE_UNLIMITED);
     if (fz_file_exists(ctx, file_path)) {
@@ -70,8 +95,15 @@ public:
     pdf_drop_document(this->ctx, this->doc);
     fz_drop_context(this->ctx);
   }
+
+  /* Getting this document's total
+   * page number. */
   size_t countPages() { return this->n_pages; }
+
+  /* Getting this document's file path. */
   const char *getFileFullPath() { return this->file_full_path; }
+
+  /* Getting page at index `num`. */
   PDFPage loadPageAtIndex(int num) {
     assert(this->ctx != nullptr && this->doc != nullptr &&
            "context / document object not found");
