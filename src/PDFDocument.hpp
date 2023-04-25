@@ -20,7 +20,7 @@ public:
   float x1;
   float y1;
 
-  /* Simply creat a `PDFPage` object
+  /* Simply create a `PDFPage` object
    * from a raw `pdf_page` pointer.
    * If no `index` provided, then
    * set the index to -1. */
@@ -117,6 +117,10 @@ public:
         fz_bound_page(this->ctx, (fz_page *)(page_obj.getPointer())));
     return page_obj;
   }
+
+  /* Alias to `loadPageAtIndex`. */
+  PDFPage page(int num) { return this->loadPageAtIndex(num); }
+
   PDFPage *getAllPages() {
     assert(this->ctx != nullptr && this->doc != nullptr);
     this->all_pages = (PDFPage *)malloc(sizeof(PDFPage) * this->n_pages);
