@@ -168,6 +168,13 @@ private:
       this->all_pages[i] = this->loadPageAtIndex(i);
     }
   }
+
+  /* Dropping all pages */
+  void dropAllPages() {
+    assert(this->all_pages != nullptr);
+    free(this->all_pages);
+    this->all_pages = nullptr;
+  }
 };
 
 } // namespace MuPDF
