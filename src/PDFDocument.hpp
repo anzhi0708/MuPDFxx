@@ -44,6 +44,12 @@ public:
   /* Returning the 'raw type' aka `pdf_page *`. */
   pdf_page *getPointer() { return this->pdf_page_ptr; }
 
+  /* Alias to `getPointer()` */
+  pdf_page *getRawPointer() { return this->pdf_page_ptr; }
+
+  /* Alias to `getPointer()` */
+  pdf_page *getFitzPointer() { return this->pdf_page_ptr; }
+
   /* Initializing this page object's boundary
    * coordinates.
    * X0, Y0, X1, Y1 are floats. */
